@@ -1,16 +1,23 @@
-import { useEffect, useState } from "react";
+import MovieCard from "../components/MovieCard"; 
+import { useEffect, useState } from "react"; 
 
 function Home() {
-  return (
-    <>
-      <header>
-        {/* What component should go here? */}
-      </header>
-      <main>
-        {/* Info goes here! */}
-      </main>
-    </>
-  );
-};
+  const [movies, setMovies] = useState([]); 
 
-export default Home;
+  useEffect(() => {
+    fetch("http://localhost:3000/movies") 
+      .then((response) => response.json()) 
+      .then((data) => setMovies(data)); 
+  }, []);
+
+  return (
+    <div>
+      <h1>Home Page</h1>
+      {movies.map((movie) => (
+        <MovieCard key={movie.id} title={movie.title} id={movie.id} />
+      ))}
+    </div>
+  );
+}
+
+export default Home; // Export Home for use in routes
